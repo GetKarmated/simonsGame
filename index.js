@@ -85,7 +85,7 @@ function handleKey(key, time= 120) {
     let selectedBox = $('.box:contains(' + key + ')');
 
     selectedBox.addClass('selected-box');
-    playSound(key.toUpperCase());
+    //playSound(key.toUpperCase());
     setTimeout(function() {
         selectedBox.removeClass('selected-box');
     }, time);
