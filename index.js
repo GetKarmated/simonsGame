@@ -10,15 +10,15 @@ var lastLevel = {
     time: 0
 }
 
-const $textRules = $('#rules');
-const $difficultyContainer= $('.difficulty-container');
-const $gridContainer = $('.grid-container');
-const $playButtonsContainer = $('.play-buttons-container');
-const $resultImg = $('#result-gif');
+const $mainContainer = $('#main-container');
+const $difficultyContainer= $('#difficulty-container');
+const $gridContainer = $('#grid-container');
+const $playButtonsContainer = $('#play-buttons-container');
 const $startButton = $('#start');
-const $difficultyButtons = $('.difficulty-container button');
+const $difficultyButtons = $('#difficulty-container button');
 const $tryAgainButton = $('#tryagain');
-const $textDifficulty = $('.difficulty-container .text');
+const $textRules = $('#rules');
+const $resultImg = $('#result-gif');
 const $box = $('.box');
 
 
@@ -47,12 +47,12 @@ $(document).ready(function() {
         $(target).addClass('active').siblings().removeClass('active');
         $startButton.removeClass('disabled-button');
         $startButton.addClass('gradient-background');
-        $textDifficulty.hide();
     });
 
     $startButton.click(function() {
         resultState();
-        hideButtons('hide');
+        $gridContainer.addClass('grid-container-onGame');
+        $box.addClass('box-onGame');
         $box.addClass('augmented-box');
         setTimeout(function(){
             startGame(level);
@@ -62,7 +62,6 @@ $(document).ready(function() {
 
     $tryAgainButton.click(function() {
         resultState('retry');
-        hideButtons('hide');
         $box.addClass('augmented-box');
         setTimeout(function(){
             playSequence(lastLevel.time,0, true);
@@ -85,7 +84,6 @@ function handleKey(key, time= 120) {
     let selectedBox = $('.box:contains(' + key + ')');
 
     selectedBox.addClass('selected-box');
-    playSound(key.toUpperCase());
     setTimeout(function() {
         selectedBox.removeClass('selected-box');
     }, time);
@@ -175,6 +173,9 @@ function playSequence(time, index=0, tryAgain= false) {
             setTimeout(function() {
                 $box.removeClass('augmented-box');
                 hideButtons('show');
+                $mainContainer.addClass('main-container-onGame');
+                $difficultyContainer.addClass('difficulty-container-onGame');
+                $startButton.addClass('start-button-onGame');
                 updateRemainingEntriesText();
                 listening = true;
             }, 500);
@@ -253,18 +254,21 @@ function resultState(state) {
         case 'retry':
             userSequence = [];
             $resultImg.css('display', 'none');
+            hideButtons('hide');
             $gridContainer.show();
-            $tryAgainButton.hide();
             $tryAgainButton.removeClass('gradient-background');
             $startButton.removeClass('gradient-background');
             $startButton.removeClass('play-buttons');
             break;
         default:
             sequence = [];
-            userSequence = [];    
+            userSequence = [];  
+            if (!$gridContainer.parent().is($mainContainer)) {
+                $gridContainer.insertAfter($difficultyContainer);
+            }  
             $resultImg.css('display', 'none');
+            hideButtons('hide');
             $gridContainer.show();
-            $tryAgainButton.hide();
             $tryAgainButton.removeClass('gradient-background');
             $startButton.removeClass('gradient-background');
             $startButton.removeClass('play-buttons');

@@ -8,32 +8,31 @@
         <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
     </head>
     <body>
-        <h1 id="title">Welcome to Simon's game</h1>
-        <h2 id="rules" class="text">Press in the shown order the keys to complete the level</h2>
-        <div class="main-container">
-            <div class="difficulty-container">
-                <h2 class="text" style="margin: 0rem 0 1rem 0;">Choose your difficulty</h2>
-                <button type="button">Easy</button>
-                <button type="button">Medium</button> 
-                <button type="button">Hard</button>
+        <div id="header-container">
+            <div class="header-text">
+                <h1 id="title">Welcome to Simon's game</h1>
+                <h2 id="rules" class="text">Press in the shown order the keys to complete the level</h2>
             </div>
-            <div class="grid-container">
+            <div id="grid-container">
                 <div class="box">A</div>
                 <div class="box">Z</div>
                 <div class="box">O</div>
                 <div class="box">P</div>
             </div>
+        </div>
+
+        <div id="main-container">
+            <div id="difficulty-container">
+                <button type="button">Easy</button>
+                <button type="button">Medium</button> 
+                <button type="button">Hard</button>
+            </div>
             <img id="result-gif" src="" alt="">
-            <div class="play-buttons-container">
+            <div id="play-buttons-container">
                 <button id="tryagain" class="play-buttons" type="button" style="display: none;">Try again</button>
                 <button id="start" class="start-button" type="button">Start</button>
             </div>
         </div>
-
-        <audio id="sound-A" src="sounds/do.mp3" preload="auto"></audio>
-        <audio id="sound-Z" src="sounds/re.mp3" preload="auto"></audio>
-        <audio id="sound-O" src="sounds/mi.mp3" preload="auto"></audio>
-        <audio id="sound-P" src="sounds/fa.mp3" preload="auto"></audio>
         
         <footer>
             <p>@GetKarmated</p>
