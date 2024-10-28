@@ -17,6 +17,7 @@ const $gridContainer = $('#grid-container');
 const $playButtonsContainer = $('#play-buttons-container');
 const $difficultyButtons = $('#difficulty-container button');
 const $startButton = $('#start');
+const $resetButton = $('#reset');   
 const $tryAgainButton = $('#tryagain');
 const $textRules = $('#rules');
 const $resultImg = $('#result-gif');
@@ -70,6 +71,11 @@ $(document).ready(function() {
             playSequence(lastLevel.time,0, true);
         }, 500);
 
+    });
+    $resetButton.click(function() {
+        userSequence = [];
+        remainingEntries = lastLevel.remainingEntries;
+        updateRemainingEntriesText();
     });
 
 });
@@ -224,6 +230,7 @@ function designState(state) {
             $resultImg.attr('src', './img/win.gif');
             $tryAgainButton.hide();
             $footer.show();
+            $resetButton.hide();
             $startButton.addClass('gradient-background');
             $startButton.addClass('start-button-onGame');
             $startButton.removeClass('play-buttons');
@@ -234,7 +241,7 @@ function designState(state) {
             $tryAgainButton.show();
             $footer.show();
             $tryAgainButton.addClass('gradient-background');
-            $startButton.addClass('play-buttons');
+            $resetButton.hide();
             $startButton.removeClass('start-button-onGame');
             $tryAgainButton.addClass('play-buttons');
             break;
@@ -248,12 +255,12 @@ function designState(state) {
             $tryAgainButton.hide();
             $footer.show();
             $resultImg.css('display', 'none');
+            $resetButton.show();
             $gridContainer.removeClass('grid-container-demo');
-            $startButton.removeClass('play-buttons');
             $startButton.removeClass('gradient-background');
             $mainContainer.addClass('main-container-onGame');
+            $startButton.addClass('play-buttons');
             $difficultyContainer.addClass('difficulty-container-onGame');
-            $startButton.addClass('start-button-onGame');
             $difficultyButtons.addClass('difficulty-button-onGame');
             break;
         case 'demo-state':
