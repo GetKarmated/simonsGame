@@ -34,17 +34,29 @@ $(document).ready(function() {
     }
 
     $(document).on('keypress', function(e) {
-        if(keys.includes(e.key.toUpperCase()) && listening)
+        const letter = e.key.toUpperCase();
+        if(keys.includes(letter) && listening)
         {
-            handleKey(e.key.toUpperCase());
-            userSequence.push(e.key.toUpperCase());
+            handleKey(letter);
+            userSequence.push(letter);
             updateRemainingEntriesText();
             if(userSequence.length === sequence.length) {
                 checkSequences();
             }
         }
     });
-
+    $box.on('click', function() {
+        const letter = $(this).text().toUpperCase();
+        if(keys.includes(letter) && listening)
+            {
+                handleKey(letter);
+                userSequence.push(letter);
+                updateRemainingEntriesText();
+                if(userSequence.length === sequence.length) {
+                    checkSequences();
+                }
+            }
+        });
     $difficultyButtons.click(function(e) {
         const target = e.currentTarget;
         level = $(target).text().toLowerCase();    
@@ -76,6 +88,10 @@ $(document).ready(function() {
         userSequence = [];
         remainingEntries = lastLevel.remainingEntries;
         updateRemainingEntriesText();
+        $resetButton.addClass('active');
+        setTimeout(function() {
+            $resetButton.removeClass('active');
+        }, 400);
     });
 
 });
@@ -256,6 +272,7 @@ function designState(state) {
             $footer.show();
             $resultImg.css('display', 'none');
             $resetButton.show();
+            $headerContainer.removeClass('header-container-demo');
             $gridContainer.removeClass('grid-container-demo');
             $startButton.removeClass('gradient-background');
             $mainContainer.addClass('main-container-onGame');
@@ -272,6 +289,7 @@ function designState(state) {
             $gridContainer.addClass('grid-container-demo');
             $box.addClass('box-onDemo');
             $box.addClass('augmented-box');
+            $headerContainer.addClass('header-container-demo');
             $resultImg.css('display', 'none');
             $textRules.hide();
             $footer.hide();

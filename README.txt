@@ -1,7 +1,6 @@
 To do next:
 
 - Score table
-- Reset button
 - Home button
 - Clean code
 
