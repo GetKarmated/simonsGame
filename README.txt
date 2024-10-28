@@ -1,6 +1,5 @@
 To do next:
 
-- Indication font
 - Score table
 - Reset button
 - Home button
