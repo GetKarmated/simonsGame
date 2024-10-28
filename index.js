@@ -22,6 +22,7 @@ const $textRules = $('#rules');
 const $resultImg = $('#result-gif');
 const $box = $('.box');
 const $footer = $('footer');
+const $indicationGif= $('#indication-gif');
 
 
 
@@ -259,7 +260,7 @@ function designState(state) {
             if (!$gridContainer.parent().is($mainContainer)) {
                 $gridContainer.insertAfter($difficultyContainer);
             }  
-
+            $indicationGif.hide();
             $gridContainer.addClass('grid-container-onGame');
             $gridContainer.addClass('grid-container-demo');
             $box.addClass('box-onDemo');
