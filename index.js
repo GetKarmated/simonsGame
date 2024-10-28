@@ -11,15 +11,17 @@ var lastLevel = {
 }
 
 const $mainContainer = $('#main-container');
+const $headerContainer = $('#header-container');
 const $difficultyContainer= $('#difficulty-container');
 const $gridContainer = $('#grid-container');
 const $playButtonsContainer = $('#play-buttons-container');
-const $startButton = $('#start');
 const $difficultyButtons = $('#difficulty-container button');
+const $startButton = $('#start');
 const $tryAgainButton = $('#tryagain');
 const $textRules = $('#rules');
 const $resultImg = $('#result-gif');
 const $box = $('.box');
+const $footer = $('footer');
 
 
 
@@ -50,10 +52,9 @@ $(document).ready(function() {
     });
 
     $startButton.click(function() {
-        resultState();
-        $gridContainer.addClass('grid-container-onGame');
-        $box.addClass('box-onGame');
-        $box.addClass('augmented-box');
+        sequence = [];
+        userSequence = [];  
+        designState('demo-state');
         setTimeout(function(){
             startGame(level);
         }, 500);
@@ -61,8 +62,9 @@ $(document).ready(function() {
     });
 
     $tryAgainButton.click(function() {
-        resultState('retry');
-        $box.addClass('augmented-box');
+        userSequence = [];
+
+        designState('demo-state');
         setTimeout(function(){
             playSequence(lastLevel.time,0, true);
         }, 500);
@@ -171,33 +173,11 @@ function playSequence(time, index=0, tryAgain= false) {
     }
     else {
             setTimeout(function() {
-                $box.removeClass('augmented-box');
-                hideButtons('show');
-                $mainContainer.addClass('main-container-onGame');
-                $difficultyContainer.addClass('difficulty-container-onGame');
-                $startButton.addClass('start-button-onGame');
+                designState('play-state');
                 updateRemainingEntriesText();
                 listening = true;
             }, 500);
         }
-};
-
-function hideButtons(state) {
-    switch(state){
-        case 'hide':
-            $textRules.hide();
-            $difficultyContainer.hide();
-            $playButtonsContainer.hide();
-            break;
-        case 'show':
-            $textRules.show();
-            $difficultyContainer.show();
-            $playButtonsContainer.show();
-            $startButton.removeClass('gradient-background');
-            break;
-        default:
-            break;
-    }
 };
 
 function updateRemainingEntriesText() {
@@ -226,52 +206,72 @@ function checkSequences() {
 
     if (userSequence.join('') === sequence.join('')) {
         $textRules.text('Well done !');
-        resultState('win');
+        designState('win-screen');
     } else {
         $textRules.text('Its ok...try again !');
-        resultState('lose');
+        designState('lose-screen');
     }
 };
 
-function resultState(state) {
+function designState(state) {
     $resultImg.css('display', 'block');
     $startButton.text('New level');
 
     switch(state){
-        case 'win':
-            $gridContainer.toggle();
+        case 'win-screen':
+            $gridContainer.hide();
             $resultImg.attr('src', './img/win.gif');
             $tryAgainButton.hide();
+            $footer.show();
             $startButton.addClass('gradient-background');
-            break;
-        case 'lose':
-            $gridContainer.toggle();
-            $resultImg.attr('src', './img/lose.gif');
-            $tryAgainButton.show();
-            $tryAgainButton.addClass('gradient-background');
-            $startButton.addClass('play-buttons');
-            break;
-        case 'retry':
-            userSequence = [];
-            $resultImg.css('display', 'none');
-            hideButtons('hide');
-            $gridContainer.show();
-            $tryAgainButton.removeClass('gradient-background');
-            $startButton.removeClass('gradient-background');
+            $startButton.addClass('start-button-onGame');
             $startButton.removeClass('play-buttons');
             break;
-        default:
-            sequence = [];
-            userSequence = [];  
+        case 'lose-screen':
+            $gridContainer.hide();
+            $resultImg.attr('src', './img/lose.gif');
+            $tryAgainButton.show();
+            $footer.show();
+            $tryAgainButton.addClass('gradient-background');
+            $startButton.addClass('play-buttons');
+            $startButton.removeClass('start-button-onGame');
+            $tryAgainButton.addClass('play-buttons');
+            break;
+        case 'play-state':
+            $box.removeClass('augmented-box');
+            $box.removeClass('box-onDemo');
+            $box.addClass('box-onGame');
+            $textRules.show();
+            $difficultyContainer.show();
+            $playButtonsContainer.show();
+            $tryAgainButton.hide();
+            $footer.show();
+            $resultImg.css('display', 'none');
+            $gridContainer.removeClass('grid-container-demo');
+            $startButton.removeClass('play-buttons');
+            $startButton.removeClass('gradient-background');
+            $mainContainer.addClass('main-container-onGame');
+            $difficultyContainer.addClass('difficulty-container-onGame');
+            $startButton.addClass('start-button-onGame');
+            $difficultyButtons.addClass('difficulty-button-onGame');
+            break;
+        case 'demo-state':
             if (!$gridContainer.parent().is($mainContainer)) {
                 $gridContainer.insertAfter($difficultyContainer);
             }  
+
+            $gridContainer.addClass('grid-container-onGame');
+            $gridContainer.addClass('grid-container-demo');
+            $box.addClass('box-onDemo');
+            $box.addClass('augmented-box');
             $resultImg.css('display', 'none');
-            hideButtons('hide');
+            $textRules.hide();
+            $footer.hide();
+            $difficultyContainer.hide();
+            $playButtonsContainer.hide();
             $gridContainer.show();
-            $tryAgainButton.removeClass('gradient-background');
-            $startButton.removeClass('gradient-background');
-            $startButton.removeClass('play-buttons');
+            break;
+        default:
             break;
     }
 };
