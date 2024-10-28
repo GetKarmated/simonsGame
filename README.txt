@@ -1,6 +1,5 @@
 To do next:
 
-- Score table
 - Home button
 - Clean code
 

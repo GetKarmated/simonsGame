@@ -4,6 +4,8 @@ var userSequence = [];
 var sequence = [];
 var listening = false;
 var remainingEntries= 0;
+var currentScore= 0;
+var topScore= 0;
 var lastLevel = {
     sequence: [],
     remainingEntries: 0,
@@ -24,6 +26,9 @@ const $resultImg = $('#result-gif');
 const $box = $('.box');
 const $footer = $('footer');
 const $indicationContainer= $('#indication-div');
+const $scoreTable= $('#score-table');
+const $currentScore= $('#current-score');
+const $topScore= $('#top-score');
 
 
 
@@ -229,9 +234,14 @@ function checkSequences() {
 
     if (userSequence.join('') === sequence.join('')) {
         $textRules.text('Well done !');
+        currentScore++;
+        if(currentScore > topScore) {
+            topScore = currentScore;
+        }
         designState('win-screen');
     } else {
         $textRules.text('Its ok...try again !');
+        currentScore = 0;
         designState('lose-screen');
     }
 };
@@ -244,8 +254,9 @@ function designState(state) {
         case 'win-screen':
             $gridContainer.hide();
             $resultImg.attr('src', './img/win.gif');
+            $currentScore.text('Current score: ' + currentScore);
+            $topScore.text('Top score: ' + topScore);
             $tryAgainButton.hide();
-            $footer.show();
             $resetButton.hide();
             $startButton.addClass('gradient-background');
             $startButton.addClass('start-button-onGame');
@@ -254,8 +265,9 @@ function designState(state) {
         case 'lose-screen':
             $gridContainer.hide();
             $resultImg.attr('src', './img/lose.gif');
+            $currentScore.text('Current score: ' + currentScore);
+            $topScore.text('Top score: ' + topScore);
             $tryAgainButton.show();
-            $footer.show();
             $tryAgainButton.addClass('gradient-background');
             $resetButton.hide();
             $startButton.removeClass('start-button-onGame');
@@ -269,7 +281,6 @@ function designState(state) {
             $difficultyContainer.show();
             $playButtonsContainer.show();
             $tryAgainButton.hide();
-            $footer.show();
             $resultImg.css('display', 'none');
             $resetButton.show();
             $headerContainer.removeClass('header-container-demo');
@@ -279,6 +290,7 @@ function designState(state) {
             $startButton.addClass('play-buttons');
             $difficultyContainer.addClass('difficulty-container-onGame');
             $difficultyButtons.addClass('difficulty-button-onGame');
+            $scoreTable.css('display', 'flex');
             break;
         case 'demo-state':
             if (!$gridContainer.parent().is($mainContainer)) {
@@ -291,6 +303,7 @@ function designState(state) {
             $box.addClass('augmented-box');
             $headerContainer.addClass('header-container-demo');
             $resultImg.css('display', 'none');
+            $scoreTable.css('display', 'none');
             $textRules.hide();
             $footer.hide();
             $difficultyContainer.hide();

@@ -95,6 +95,18 @@ footer {
 .header-container-demo {
     margin-bottom: 3rem !important;
 }
+#score-table {
+    display: none;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    border-radius: 30px;
+    width: 600px;
+    position: relative;
+    left: 32.5%;
+    margin-top: 5rem;
+}
 
 
 
@@ -151,6 +163,14 @@ footer {
     top: 10%;
     left: 39%;
   
+}
+.score-table-text {
+    font-size: 1.3rem;
+    color: rgb(73, 53, 53);
+    font-family: "Borel", serif;
+    text-align: center;
+    margin-block: 0;
+    padding-block: 1rem 0.1rem;
 }
 
 
