@@ -30,29 +30,26 @@ const $scoreTable= $('#score-table');
 const $currentScore= $('#current-score');
 const $topScore= $('#top-score');
 
-
+function isSafari() {
+    const userAgent = window.navigator.userAgent;
+    console.log(userAgent);
+    return userAgent.includes('Safari') && !userAgent.includes('Chrome');
+}
 
 $(document).ready(function() {
 
-    if(level === null) {
-        $startButton.first().addClass('disabled-button');
+    if (isSafari()) {
+        window.location.href = "./error.html";   
+        return; 
     }
-
-    $(document).on('keypress', function(e) {
-        const letter = e.key.toUpperCase();
-        if(keys.includes(letter) && listening)
-        {
-            handleKey(letter);
-            userSequence.push(letter);
-            updateRemainingEntriesText();
-            if(userSequence.length === sequence.length) {
-                checkSequences();
-            }
+    else {
+        if(level === null) {
+            $startButton.first().addClass('disabled-button');
         }
-    });
-    $box.on('click', function() {
-        const letter = $(this).text().toUpperCase();
-        if(keys.includes(letter) && listening)
+    
+        $(document).on('keypress', function(e) {
+            const letter = e.key.toUpperCase();
+            if(keys.includes(letter) && listening)
             {
                 handleKey(letter);
                 userSequence.push(letter);
@@ -62,42 +59,56 @@ $(document).ready(function() {
                 }
             }
         });
-    $difficultyButtons.click(function(e) {
-        const target = e.currentTarget;
-        level = $(target).text().toLowerCase();    
-        $(target).addClass('active').siblings().removeClass('active');
-        $startButton.removeClass('disabled-button');
-        $startButton.addClass('gradient-background');
-    });
+        $box.on('click', function() {
+            const letter = $(this).text().toUpperCase();
+            if(keys.includes(letter) && listening)
+                {
+                    handleKey(letter);
+                    userSequence.push(letter);
+                    updateRemainingEntriesText();
+                    if(userSequence.length === sequence.length) {
+                        checkSequences();
+                    }
+                }
+            });
+        $difficultyButtons.click(function(e) {
+            const target = e.currentTarget;
+            level = $(target).text().toLowerCase();    
+            $(target).addClass('active').siblings().removeClass('active');
+            $startButton.removeClass('disabled-button');
+            $startButton.addClass('gradient-background');
+        });
+    
+        $startButton.click(function() {
+            sequence = [];
+            userSequence = [];  
+            designState('demo-state');
+            setTimeout(function(){
+                startGame(level);
+            }, 500);
+           
+        });
+    
+        $tryAgainButton.click(function() {
+            userSequence = [];
+    
+            designState('demo-state');
+            setTimeout(function(){
+                playSequence(lastLevel.time,0, true);
+            }, 500);
+    
+        });
+        $resetButton.click(function() {
+            userSequence = [];
+            remainingEntries = lastLevel.remainingEntries;
+            updateRemainingEntriesText();
+            $resetButton.addClass('active');
+            setTimeout(function() {
+                $resetButton.removeClass('active');
+            }, 400);
+        });
+    }
 
-    $startButton.click(function() {
-        sequence = [];
-        userSequence = [];  
-        designState('demo-state');
-        setTimeout(function(){
-            startGame(level);
-        }, 500);
-       
-    });
-
-    $tryAgainButton.click(function() {
-        userSequence = [];
-
-        designState('demo-state');
-        setTimeout(function(){
-            playSequence(lastLevel.time,0, true);
-        }, 500);
-
-    });
-    $resetButton.click(function() {
-        userSequence = [];
-        remainingEntries = lastLevel.remainingEntries;
-        updateRemainingEntriesText();
-        $resetButton.addClass('active');
-        setTimeout(function() {
-            $resetButton.removeClass('active');
-        }, 400);
-    });
 
 });
 

@@ -1,0 +1,45 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    margin: 0;
+    background-color: #FFECEC;
+    background-attachment: fixed;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.text {
+    font-family: "Borel", serif;
+    font-size: 2rem;
+    color: rgb(73, 53, 53);
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 10rem;
+    margin-block: 0;
+    padding-top: 8rem;
+}
+
+#cryingGif {
+    width: 390px;
+    height: 270px;
+}
+
+
+
+
+.borel-regular {
+    font-family: "Borel", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
